@@ -1,0 +1,67 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: 'Red Hat Display', sans-serif;
+}
+
+@font-face {
+  font-family: 'RedHatDisplay-Light';
+  src: url('./fonts/RedHatDisplay-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-display: swap;
+  font-style: normal;
+}
+
+.redhat-light {
+  font-family: 'RedHatDisplay-Light';
+}
+
+@font-face {
+  font-family: 'RedHatDisplay-Regular';
+  src: url('./fonts/RedHatDisplay-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-display: swap;
+  font-style: normal;
+}
+
+.redhat-regular {
+  font-family: 'RedHatDisplay-Regular';
+}
+
+@font-face {
+  font-family: 'RedHatDisplay-Medium';
+  src: url('./fonts/RedHatDisplay-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-display: swap;
+  font-style: normal;
+}
+
+.redhat-medium {
+  font-family: 'RedHatDisplay-Medium';
+}
+
+@font-face {
+  font-family: 'RedHatDisplay-SemiBold';
+  src: url('./fonts/RedHatDisplay-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-display: swap;
+  font-style: normal;
+}
+
+.redhat-semibold {
+  font-family: 'RedHatDisplay-SemiBold';
+}
+
+@font-face {
+  font-family: 'RedHatDisplay-Bold';
+  src: url('./fonts/RedHatDisplay-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-display: swap;
+  font-style: normal;
+}
+
+.redhat-bold {
+  font-family: 'RedHatDisplay-Bold';
+}
