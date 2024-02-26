@@ -3,7 +3,12 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 dotenv.config();
 
+import authRouter from './routes/authRoute.js';
+
 const app = express();
+app.use(express.json());
+
+app.use('/server/auth', authRouter);
 
 mongoose
   .connect(process.env.MONGO)
