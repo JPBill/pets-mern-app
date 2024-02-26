@@ -4,16 +4,38 @@ import Profile from './pages/Profile';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import NotFound from './pages/NotFound';
+import Nav from './components/Nav';
+
+const Layout = ({ children }) => (
+  <>
+    <Nav />
+    {children}
+  </>
+);
 
 function App() {
   return (
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route
+            path="/"
+            element={
+              <Layout>
+                <Home />
+              </Layout>
+            }
+          />
           <Route path="/iniciar-sesion" element={<Login />} />
           <Route path="/crear-cuenta" element={<Register />} />
-          <Route path="/mi-cuenta" element={<Profile />} />
+          <Route
+            path="/mi-cuenta"
+            element={
+              <Layout>
+                <Profile />
+              </Layout>
+            }
+          />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
