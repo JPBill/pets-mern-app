@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import FormInput from '../components/reusable/FormInput';
+import OAuth from '../components/OAuth';
 import { Link, useNavigate } from 'react-router-dom';
 import { EyeIcon, EyeOffIcon } from '@heroicons/react/outline';
 import { useDispatch, useSelector } from 'react-redux';
@@ -121,9 +122,7 @@ const Login = () => {
               >
                 {loading ? 'Cargando...' : 'Iniciar sesión'}
               </button>
-              <button className="w-full flex justify-center mt-2 py-2 px-4 border border-cyan-600 rounded-md shadow-sm text-sm redhat-medium text-gray-700 bg-gray-50 hover:bg-gray-100">
-                Continuar con Google
-              </button>
+              <OAuth />
             </div>
           </form>
           {error && (

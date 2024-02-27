@@ -2,6 +2,7 @@ import { useState } from 'react';
 import FormInput from '../components/reusable/FormInput';
 import { Link, useNavigate } from 'react-router-dom';
 import { EyeIcon, EyeOffIcon } from '@heroicons/react/outline';
+import OAuth from '../components/OAuth';
 
 const Register = () => {
   const [formData, setFormData] = useState({});
@@ -126,9 +127,7 @@ const Register = () => {
               >
                 {loading ? 'Cargando...' : 'Registrarme'}
               </button>
-              <button className="w-full flex justify-center mt-2 py-2 px-4 border border-cyan-600 rounded-md shadow-sm text-sm redhat-medium text-gray-700 bg-gray-50 hover:bg-gray-100">
-                Continuar con Google
-              </button>
+              <OAuth />
             </div>
           </form>
           {error && (
