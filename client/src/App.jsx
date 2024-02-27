@@ -4,6 +4,7 @@ import Profile from './pages/Profile';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import NotFound from './pages/NotFound';
+import PrivateRoute from './pages/PrivateRoute';
 import Nav from './components/Nav';
 
 const Layout = ({ children }) => (
@@ -28,14 +29,16 @@ function App() {
           />
           <Route path="/iniciar-sesion" element={<Login />} />
           <Route path="/crear-cuenta" element={<Register />} />
-          <Route
-            path="/mi-cuenta"
-            element={
-              <Layout>
-                <Profile />
-              </Layout>
-            }
-          />
+          <Route element={<PrivateRoute />}>
+            <Route
+              path="/mi-cuenta"
+              element={
+                <Layout>
+                  <Profile />
+                </Layout>
+              }
+            />
+          </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
