@@ -1,7 +1,9 @@
 import { Fragment, useState } from 'react';
-import { Dialog, Transition } from '@headlessui/react';
-import { useLocation } from 'react-router-dom';
+import { Dialog, Menu, Transition } from '@headlessui/react';
+import { Link, useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import {
+  ChevronDownIcon,
   HeartIcon,
   HomeIcon,
   MenuAlt1Icon,
@@ -11,9 +13,8 @@ import {
   XIcon,
 } from '@heroicons/react/outline';
 import { SearchIcon } from '@heroicons/react/solid';
-import { Link } from 'react-router-dom';
 
-let navigation = [
+const navigation = [
   { name: 'Inicio', link: '/', icon: HomeIcon },
   { name: 'Mi perfil', link: '/mi-cuenta', icon: UserIcon },
   { name: 'Mascotas', link: '/mascotas-en-adopcion', icon: HeartIcon },
@@ -28,6 +29,7 @@ function classNames(...classes) {
 }
 
 const Nav = () => {
+  const { currentUser } = useSelector((state) => state.user);
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const location = useLocation();
@@ -238,21 +240,77 @@ const Nav = () => {
                   </div>
                 </form>
               </div>
+
               <div className="ml-4 flex items-center md:ml-6">
-                <div className="flex items-center space-x-3">
-                  <Link
-                    to="/iniciar-sesion"
-                    className="hidden lg:inline-flex items-center px-4 py-2 border border-cyan-600 shadow-sm text-sm redhat-medium rounded-md text-gray-700 bg-white hover:bg-gray-100"
-                  >
-                    Iniciar sesión
-                  </Link>
-                  <Link
-                    to="/crear-cuenta"
-                    className="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm redhat-medium rounded-md text-white bg-cyan-600 hover:bg-cyan-700"
-                  >
-                    Crear cuenta
-                  </Link>
-                </div>
+                {currentUser ? (
+                  <Menu as="div" className="ml-3 relative redhat-medium">
+                    <div>
+                      <Menu.Button className="max-w-xs bg-white rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500 p-2 lg:rounded-md lg:hover:bg-gray-50">
+                        <img className="h-6 w-6" src="/paw.svg" alt="usuario" />
+                        <span className="hidden ml-3 text-gray-700 text-sm lg:block">
+                          <span className="sr-only">Open user menu for </span>
+                          {currentUser.username}
+                        </span>
+                        <ChevronDownIcon
+                          className="hidden flex-shrink-0 ml-1 h-5 w-5 text-gray-400 lg:block"
+                          aria-hidden="true"
+                        />
+                      </Menu.Button>
+                    </div>
+                    <Transition
+                      as={Fragment}
+                      enter="transition ease-out duration-100"
+                      enterFrom="transform opacity-0 scale-95"
+                      enterTo="transform opacity-100 scale-100"
+                      leave="transition ease-in duration-75"
+                      leaveFrom="transform opacity-100 scale-100"
+                      leaveTo="transform opacity-0 scale-95"
+                    >
+                      <Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                        <Menu.Item>
+                          {({ active }) => (
+                            <Link
+                              to="/mi-cuenta"
+                              className={classNames(
+                                active ? 'bg-gray-100' : '',
+                                'block px-4 py-2 text-sm text-gray-700'
+                              )}
+                            >
+                              Mi perfil
+                            </Link>
+                          )}
+                        </Menu.Item>
+                        <Menu.Item>
+                          {({ active }) => (
+                            <button
+                              className={classNames(
+                                active ? 'bg-gray-100' : '',
+                                'block px-4 py-2 text-sm text-start text-gray-700 w-full'
+                              )}
+                            >
+                              Cerrar sesión
+                            </button>
+                          )}
+                        </Menu.Item>
+                      </Menu.Items>
+                    </Transition>
+                  </Menu>
+                ) : (
+                  <div className="flex items-center space-x-3">
+                    <Link
+                      to="/iniciar-sesion"
+                      className="hidden lg:inline-flex items-center px-4 py-2 border border-cyan-600 shadow-sm text-sm redhat-medium rounded-md text-gray-700 bg-white hover:bg-gray-100"
+                    >
+                      Iniciar sesión
+                    </Link>
+                    <Link
+                      to="/crear-cuenta"
+                      className="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm redhat-medium rounded-md text-white bg-cyan-600 hover:bg-cyan-700"
+                    >
+                      Crear cuenta
+                    </Link>
+                  </div>
+                )}
               </div>
             </div>
           </div>
