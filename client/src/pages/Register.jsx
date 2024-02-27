@@ -1,13 +1,51 @@
 import { useState } from 'react';
 import FormInput from '../components/reusable/FormInput';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { EyeIcon, EyeOffIcon } from '@heroicons/react/outline';
 
 const Register = () => {
+  const [formData, setFormData] = useState({});
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+
+  const navigate = useNavigate();
 
   const handlePasswordVisibility = () => {
     setShowPassword(!showPassword);
+  };
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.id]: e.target.value,
+    });
+  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      setLoading(true);
+      const res = await fetch('/server/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+      console.log(data);
+      if (data.success === false) {
+        setLoading(false);
+        setError(data.message);
+        return;
+      }
+      setLoading(false);
+      setError(null);
+      navigate('/iniciar-sesion');
+    } catch (error) {
+      setLoading(false);
+      setError(error.message);
+    }
   };
 
   return (
@@ -34,13 +72,14 @@ const Register = () => {
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-          <form className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-6">
             <FormInput
               inputLabel={'Nombre'}
               labelFor={'username'}
               inputType={'text'}
               inputId={'username'}
               inputName={'username'}
+              onChange={handleChange}
             />
             <FormInput
               inputLabel={'Email'}
@@ -48,6 +87,7 @@ const Register = () => {
               inputType={'email'}
               inputId={'email'}
               inputName={'email'}
+              onChange={handleChange}
             />
 
             <div className="redhat-medium text-sm">
@@ -62,6 +102,7 @@ const Register = () => {
                   type={showPassword ? 'text' : 'password'}
                   id="password"
                   name="password"
+                  onChange={handleChange}
                   required
                   className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-cyan-500 focus:border-cyan-500"
                 />
@@ -79,14 +120,25 @@ const Register = () => {
             </div>
 
             <div>
-              <button className="w-full flex justify-center py-2 px-4 rounded-md shadow-sm text-sm redhat-medium text-white bg-cyan-600 hover:bg-cyan-700">
-                Registrarme
+              <button
+                disabled={loading}
+                className="w-full flex justify-center py-2 px-4 rounded-md shadow-sm text-sm redhat-medium text-white bg-cyan-600 hover:bg-cyan-700"
+              >
+                {loading ? 'Cargando...' : 'Registrarme'}
               </button>
               <button className="w-full flex justify-center mt-2 py-2 px-4 border border-cyan-600 rounded-md shadow-sm text-sm redhat-medium text-gray-700 bg-gray-50 hover:bg-gray-100">
                 Continuar con Google
               </button>
             </div>
           </form>
+          {error && (
+            <div className="mt-6">
+              <div className="w-full border-t border-gray-300" />
+              <p className="mt-4 redhat-regular text-sm text-red-500 tracking-wide">
+                {error}
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </div>
