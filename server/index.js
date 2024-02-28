@@ -1,13 +1,17 @@
 import express from 'express';
 import mongoose from 'mongoose';
+import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 dotenv.config();
 
+import userRouter from './routes/userRoute.js';
 import authRouter from './routes/authRoute.js';
 
 const app = express();
 app.use(express.json());
+app.use(cookieParser());
 
+app.use('/server/user', userRouter);
 app.use('/server/auth', authRouter);
 
 app.use((err, req, res, next) => {
